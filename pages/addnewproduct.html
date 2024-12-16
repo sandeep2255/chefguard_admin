@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>Product Page</title>
+  <!-- Fonts and icons -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <style>
+    .add-button {
+      margin-left: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .add-button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .remove-button {
+      margin-left: 10px;
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .file-upload-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .file-upload-container input {
+      margin-right: 10px;
+    }
+  </style>
+
+  <script>
+    var authToken = localStorage.getItem('authKey');
+    var userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    var isEdit = false;
+    if (!userDetails || !authToken) {
+      alert('You are not authorized to access this page.');
+      window.location.href = 'sign-in.html';
+    }
+
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    const productId = getQueryParam('productId');
+  </script>
+
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2 bg-white my-2" id="sidenav-main">
+    <div class="sidenav-header">
+      <a class="navbar-brand px-4 py-3 m-0" href="https://demos.creative-tim.com/material-dashboard/pages/dashboard" target="_blank">
+        <span class="ms-1 text-sm text-dark">Chefguard</span>
+      </a>
+    </div>
+    <hr class="horizontal dark mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active bg-gradient-dark text-white" href="../pages/services.html">
+            <i class="material-symbols-rounded opacity-5">receipt_long</i>
+            <span class="nav-link-text ms-1">Services</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active bg-gradient-primary text-white" href="../pages/products.html">
+            <i class="material-symbols-rounded opacity-5">receipt_long</i>
+            <span class="nav-link-text ms-1">Products</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+      <div class="mx-3">
+        <a class="btn btn-outline-dark mt-4 w-100" type="button" id="logoutButton">Sign Out</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Products</li>
+          </ol>
+        </nav>
+      </div>
+    </nav>
+
+    <div class="container-fluid py-2">
+      <div class="row">
+        <div class="col-md-12 mt-4">
+          <div class="card">
+            <div class="card-body pt-4 p-3">
+              <div class="card-body col-md-6">
+                <form role="form" class="text-start" id="form-wrapper">
+                  <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" name="productName" placeholder="Product Name">
+                  </div>
+
+                  <div class="input-group input-group-outline mb-3">
+                    <input type="text" class="form-control" name="model" placeholder="Model">
+                  </div>
+
+                  <div class="input-group input-group-outline mb-3">
+                    <input type="text" class="form-control" name="price" placeholder="Price">
+                  </div>
+
+                  <div class="input-group input-group-outline mb-3">
+                    <input type="text" class="form-control" name="description" placeholder="Description">
+                  </div>
+
+                  <div id="file-upload-container-wrapper">
+                    <div class="file-upload-container" id="file-upload-container-1">
+                      <input type="file" class="form-control" name="file">
+                      <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
+                      <button type="button" class="remove-button">-</button>
+                    </div>
+                  </div>
+
+                  <button type="button" class="add-button" id="add-file-button">+</button>
+
+                  <div class="text-center">
+                    <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2" id="submitButton">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+
+  <script>
+    const MAX_FILE_SIZE = 100 * 1024; // 100 KB in bytes
+    const formWrapper = document.getElementById('form-wrapper');
+    const addFileButton = document.getElementById('add-file-button');
+    const fileUploadContainerWrapper = document.getElementById('file-upload-container-wrapper');
+    const submitButton = document.getElementById('submitButton');
+
+    function populateFormFields(product) {
+      console.log(isEdit)
+      console.log(product)
+      if (product) {
+        document.querySelector('[name="productName"]').value = product[0].Product_name || '';
+        document.querySelector('[name="model"]').value = product[0].Model || '';
+        document.querySelector('[name="price"]').value = product[0].Price || '';
+        document.querySelector('[name="description"]').value = product[0].Description || '';
+      } else {
+        console.log("Product data not available");
+      }
+      console.log(document.querySelector('[name="description"]').value)
+      const images = product[0].images || [];
+      images.forEach((image, index) => {
+        const newFileUploadContainer = document.createElement('div');
+        newFileUploadContainer.className = 'file-upload-container';
+        
+        // Create the file input field
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.className = 'form-control';
+        fileInput.name = 'file';
+        
+        // Create the placeholder for the image name
+        const placeholder = document.createElement('p');
+        placeholder.textContent = `${image.image_name || 'Image ' + (index + 1)}`;
+        placeholder.style.fontSize = '12px';
+        placeholder.style.color = '#555';
+        
+        // Create the remove button
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'remove-button';
+        removeButton.textContent = '-';
+        removeButton.setAttribute('data-id', image.image_id);
+        
+        // Attach remove button click listener
+        attachRemoveButtonListener(removeButton, newFileUploadContainer);
+        
+        // Append the elements in the correct order
+        newFileUploadContainer.appendChild(fileInput);
+        newFileUploadContainer.appendChild(placeholder);  // Image name goes after the file input
+        newFileUploadContainer.appendChild(removeButton);  // Remove button goes last
+
+        fileUploadContainerWrapper.appendChild(newFileUploadContainer);
+      });
+
+    }
+
+    if (productId) {
+      isEdit = true;
+
+      fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            populateFormFields(data.data);
+          } else {
+            alert('Error fetching product details.');
+          }
+        })
+        .catch(error => {
+          alert('Error: ' + error.message);
+        });
+    }
+
+    function attachRemoveButtonListener(removeButton, fileUploadContainer) {
+      removeButton.addEventListener('click', (event) => {
+        const imageId = event.target.getAttribute('data-id');
+        console.log(imageId)
+
+        if (isEdit) {
+          fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/image/${imageId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${authToken}`
+            }
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert('Image deleted successfully.');
+                fileUploadContainer.remove();
+              } else {
+                alert('Failed to delete image.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error.message);
+              alert(error.message);
+            });
+        } else {
+          fileUploadContainer.remove();
+        }
+      });
+    }
+
+    addFileButton.addEventListener('click', () => {
+      const fileUploadCount = document.querySelectorAll('.file-upload-container').length;
+
+      if (fileUploadCount >= 10) {
+        addFileButton.disabled = true;
+        return;
+      }
+
+      const newFileUploadContainer = document.createElement('div');
+      newFileUploadContainer.className = 'file-upload-container';
+      newFileUploadContainer.innerHTML = `
+        <input type="file" class="form-control" name="file">
+        <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
+        <button type="button" class="remove-button">-</button>
+      `;
+
+      const removeButton = newFileUploadContainer.querySelector('.remove-button');
+      attachRemoveButtonListener(removeButton, newFileUploadContainer);
+
+      fileUploadContainerWrapper.appendChild(newFileUploadContainer);
+
+      const fileInput = newFileUploadContainer.querySelector('input[type="file"]');
+      fileInput.addEventListener('change', function () {
+        validateFileSize(fileInput, newFileUploadContainer.querySelector('#fileSizeError'));
+      });
+    });
+
+    submitButton.addEventListener('click', async() => {
+      const formData_post = new FormData();
+      const formData_put_image = new FormData();
+      formData_post.append('productName', document.querySelector('[name="productName"]').value);
+      formData_post.append('Model', document.querySelector('[name="model"]').value);
+      formData_post.append('Price', document.querySelector('[name="price"]').value);
+      formData_post.append('Description', document.querySelector('[name="description"]').value);
+
+      const bodyPut = {
+        'productName': document.querySelector('[name="productName"]').value,
+        'Model':document.querySelector('[name="model"]').value,
+        'Price':document.querySelector('[name="price"]').value,
+        'Description':document.querySelector('[name="description"]').value
+      }
+
+      const files = document.querySelectorAll('[name="file"]');
+      var hasImage = true;
+      files.forEach(fileInput => {
+        const file = fileInput.files[0];
+        if (file) {
+          formData_post.append('file', file);
+          formData_put_image.append('file', file);
+        }
+        else{
+          hasImage=false;
+        }
+      });
+
+      formData_post.forEach((value, key) => {
+        console.log(value)
+    });
+
+
+      const url = isEdit
+        ? `http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`
+        : 'http://13.233.100.229:8082/api/v1/productApi/Products';
+      const method = isEdit ? 'PUT' : 'POST';
+      const body = isEdit ? JSON.stringify(bodyPut) : formData_post;
+      const headers = isEdit ?{
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        } : {
+          'Authorization': `Bearer ${authToken}`
+        }
+
+      if (method == 'PUT' && hasImage){
+          await fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/image/${productId}`,{
+            method,
+            body:formData_put_image,
+            headers:{
+            'Authorization': `Bearer ${authToken}`
+          }
+        }).then(response => response.json())
+        .then(data=>{
+          if(data.success){
+            
+          }
+        })
+        }
+
+      await fetch(url, {
+        method,
+        body:body,
+        headers: headers
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(isEdit ? 'Product updated successfully!' : 'Product added successfully!');
+            window.location.href = 'products.html';
+          } else {
+            alert('Error saving product.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+        });
+    });
+
+    // Logout logic
+    document.getElementById('logoutButton').addEventListener('click', function () {
+      localStorage.removeItem('authKey');
+      localStorage.removeItem('userDetails');
+      window.location.href = 'sign-in.html';
+    });
+  </script>
+</body>
+
+</html>
