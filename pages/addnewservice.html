@@ -341,6 +341,7 @@
 
     submitButton.addEventListener('click', async () => {
       const formData = new FormData();
+      const formData_put_image = new FormData();
 
       // Add service name and description
       const serviceName = document.querySelector('[name="serviceName"]').value.trim();
@@ -366,7 +367,7 @@
         const file = fileInput.files[0];
         if (file) {
           if (file.size <= MAX_FILE_SIZE) {
-            formData.append('file', file);
+            formData_put_image.append('file', file);
           }
           else{
             alert("Image field is greater than 100 KB")
@@ -380,6 +381,21 @@
         ? `http://13.233.100.229:8082/api/v1/serviceApi/Services/${serviceId}`
         : 'http://13.233.100.229:8082/api/v1/serviceApi/Services';
       const method = isEdit ? 'PUT' : 'POST';
+
+      if (method == 'PUT' && hasImage){
+          await fetch(`http://13.233.100.229:8082/api/v1/serviceApi/Services/image/${serviceId}`,{
+            method,
+            body:formData_put_image,
+            headers:{
+            'Authorization': `Bearer ${authToken}`
+          }
+        }).then(response => response.json())
+        .then(data=>{
+          if(data.success){
+            
+          }
+        })
+        }
 
       // Submit the data
       fetch(url, {
