@@ -182,7 +182,7 @@
       var authToken = localStorage.getItem('authKey');
       var userDetails =  JSON.parse(localStorage.getItem('userDetails'))
       console.log(userDetails, authToken)
-      fetch('http://13.233.100.229:8082/api/v1/userApi/logout',{
+      fetch('http://localhost:8082/api/v1/userApi/logout',{
         method:'post',
         headers: {
             'Content-Type': 'application/json',
@@ -209,7 +209,7 @@
   </script>
   <script>
     console.log("Fetching products from API...");
-    fetch('http://13.233.100.229:8082/api/v1/productApi/Products') // Replace with your actual API endpoint
+    fetch('http://localhost:8082/api/v1/productApi/Products') // Replace with your actual API endpoint
         .then(function(response) {
             return response.json();
         })
@@ -283,7 +283,7 @@
 
       async function deleteProduct(productId) {
         try {
-          const response = await fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`, {
+          const response = await fetch(`http://localhost:8082/api/v1/productApi/Products/${productId}`, {
             method: 'delete',
             headers: {
               'Authorization': `Bearer ${authToken}`

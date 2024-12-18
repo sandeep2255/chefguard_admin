@@ -222,7 +222,7 @@
     if (productId) {
       isEdit = true;
 
-      fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`, {
+      fetch(`http://localhost:8082/api/v1/productApi/Products/${productId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${authToken}`
@@ -247,7 +247,7 @@
         console.log(imageId)
 
         if (isEdit) {
-          fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/image/${imageId}`, {
+          fetch(`http://localhost:8082/api/v1/productApi/Products/image/${imageId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${authToken}`
@@ -333,8 +333,8 @@
 
 
       const url = isEdit
-        ? `http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`
-        : 'http://13.233.100.229:8082/api/v1/productApi/Products';
+        ? `http://localhost:8082/api/v1/productApi/Products/${productId}`
+        : 'http://localhost:8082/api/v1/productApi/Products';
       const method = isEdit ? 'PUT' : 'POST';
       const body = isEdit ? JSON.stringify(bodyPut) : formData_post;
       const headers = isEdit ?{
@@ -345,7 +345,7 @@
         }
 
       if (method == 'PUT' && hasImage){
-          await fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/image/${productId}`,{
+          await fetch(`http://localhost:8082/api/v1/productApi/Products/image/${productId}`,{
             method,
             body:formData_put_image,
             headers:{
