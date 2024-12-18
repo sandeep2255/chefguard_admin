@@ -176,7 +176,8 @@
     const logoError = document.getElementById('fileSizeError-logo');
     var fileuploadwrapper = document.getElementById('file-upload-container-wrapper');
     var imageInput = fileuploadwrapper.querySelectorAll('input[type="file"]');
-    const logocontainer = document.querySelector('#logo-upload-container-wrapper')
+    const logocontainer = document.querySelector('#logo-upload-container-wrapper');
+    var hasImage = false;
     
 
     function validateFileSize(fileInput, errorElement) {
@@ -366,6 +367,7 @@
       fileInputs.forEach(fileInput => {
         const file = fileInput.files[0];
         if (file) {
+          hasImage = true;
           if (file.size <= MAX_FILE_SIZE) {
             formData_put_image.append('file', file);
           }
