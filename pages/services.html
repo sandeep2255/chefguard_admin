@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Product Page
+    Service Page
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -178,7 +178,7 @@
         window.location.href = 'login.html';
       }
       console.log(userDetails, authToken)
-      fetch('http://localhost:8082/api/v1/userApi/logout',{
+      fetch('http://13.233.100.229:8082/api/v1/userApi/logout',{
         method:'post',
         headers: {
             'Content-Type': 'application/json',
@@ -204,7 +204,7 @@
     })
   </script>
   <script>
-    fetch('http://localhost:8082/api/v1/serviceApi/Services')
+    fetch('http://13.233.100.229:8082/api/v1/serviceApi/Services')
     .then(function(response) {
       return response.json();
     })
@@ -217,18 +217,43 @@
         var serviceItem = document.createElement('li');
         serviceItem.classList.add('item');
   
-        var serviceContent = `
-        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-          <div class="d-flex flex-column">
-            <h6 class="mb-3 text-sm">${service.Service_name}</h6>
-            <span class="mb-2 text-xs">Service Name: <span class="text-dark font-weight-bold ms-sm-2">${service.Service_name}</span></span>
-            <span class="mb-2 text-xs">Service Description: <span class="text-dark ms-sm-2 font-weight-bold">${service.Description || 'Description not available'}</span></span>
-            <span class="text-xs">Service Icon: <span class="text-dark ms-sm-2 font-weight-bold">${service.Logo_url}</span></span>
-          </div>
-        </li>
-        `;
+        // var serviceContent = `
+        // <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+        //   <div class="d-flex flex-column">
+        //     <h6 class="mb-3 text-sm">${service.Service_name}</h6>
+        //     <span class="mb-2 text-xs">Service Name: <span class="text-dark font-weight-bold ms-sm-2">${service.Service_name}</span></span>
+        //     <span class="mb-2 text-xs">Service Description: <span class="text-dark ms-sm-2 font-weight-bold">${service.Description || 'Description not available'}</span></span>
+        //     <span class="text-xs">Service Icon: <span class="text-dark ms-sm-2 font-weight-bold">${service.Logo_url}</span></span>
+        //   </div>
+        // </li>
+        // `;
   
-        serviceItem.innerHTML = serviceContent;
+        // serviceItem.innerHTML = serviceContent;
+        var firstElement = `
+            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+              <div class="d-flex flex-column">
+                <h6 class="mb-3 text-sm">${service.Service_name}</h6>
+                <span class="mb-2 text-xs">Service Name: <span class="text-dark font-weight-bold ms-sm-2">${service.Service_name}</span></span>
+                <span class="mb-2 text-xs">Service Description: <span class="text-dark ms-sm-2 font-weight-bold">${service.Description || 'Description not available'}</span></span>
+        `;
+        var imageElement = '';
+        service.images.forEach((image, index) => {
+            const imageUrl = image.image_url || 'No image url';
+            imageElement += `
+              <span class="mb-2 text-xs">
+                Product Image ${index + 1}: 
+                <span class="text-dark ms-sm-2 font-weight-bold">${imageUrl}</span>
+              </span>
+            `;
+        });
+      const lastElement = `</div>
+            <div class="ms-auto text-end">
+              <a class="btn btn-link text-danger text-gradient px-3 mb-0 deleteBtn" data-id="${service.Service_Id}"><i class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
+              <a class="btn btn-link text-dark px-3 mb-0 editBtn" data-id="${service.Service_Id}"><i class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
+            </div>
+          </li>`;
+      const serviceContent = firstElement + imageElement + lastElement;
+      serviceItem.innerHTML = serviceContent;
         carousel.appendChild(serviceItem);
       });
       } else {
@@ -238,6 +263,59 @@
     .catch(function(error) {
       console.error('Error fetching the data:', error);
     });
+
+    function navigateToEditPage(element) {
+        
+        const serviceId = element.getAttribute('data-id');
+
+        const targetUrl = `addnewservice.html?serviceId=${encodeURIComponent(serviceId)}`;
+
+        window.location.href = targetUrl;
+    }
+
+    var carousel = document.getElementById('carousel8');
+    carousel.addEventListener('click', function (event) {
+      console.log('clicked')
+    if (event.target.closest('.deleteBtn')) {
+      const deleteButton = event.target.closest('.deleteBtn');
+      const serviceId = deleteButton.getAttribute('data-id');
+
+      const confirmDelete = confirm(`Are you sure you want to delete product?`);
+      if (!confirmDelete) return;
+
+      deleteService(serviceId);
+    }
+
+    async function deleteService(serviceId) {
+      try {
+        const response = await fetch(`http://13.233.100.229:8082/api/v1/serviceApi/Services/${serviceId}`, {
+          method: 'delete',
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          },
+        });
+
+        if (response.ok) {
+          alert('Product successfully deleted!');
+          const serviceItem = document.querySelector(`[data-id="${serviceId}"]`).closest('li');
+          serviceItem.remove();
+        } else {
+          const error = await response.json();
+          alert(`Failed to delete: ${error.message}`);
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('An error occurred while trying to delete the product.');
+      }
+    }
+
+    if (event.target.closest('.editBtn')) {
+      const editButton = event.target.closest('.editBtn');
+      const serviceId = editButton.getAttribute('data-id');
+
+      navigateToEditPage(editButton)
+    }
+  });
   
   </script>
 </body>

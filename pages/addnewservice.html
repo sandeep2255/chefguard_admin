@@ -137,7 +137,7 @@
                     </div>
                   </div>
 
-                  <label for="logoUpload" class="form-label">Images</label>
+                  <label for="imageUpload" class="form-label">Images</label>
                   <div id="file-upload-container-wrapper">
                     <div class="file-upload-container" id="file-upload-container-1">
                       <input type="file" class="form-control" name="file">
@@ -176,6 +176,7 @@
     const logoError = document.getElementById('fileSizeError-logo');
     var fileuploadwrapper = document.getElementById('file-upload-container-wrapper');
     var imageInput = fileuploadwrapper.querySelectorAll('input[type="file"]');
+    const logocontainer = document.querySelector('#logo-upload-container-wrapper')
     
 
     function validateFileSize(fileInput, errorElement) {
@@ -200,6 +201,18 @@
       } else {
         console.log("service data not available");
       }
+
+      if(services[0].Logo_url){
+        const logoplaceholder = document.createElement('p');
+        logoplaceholder.textContent = `${services[0].Logo_url.substring(services[0].Logo_url.lastIndexOf('/') + 1) || 'Image '}`;
+        logoplaceholder.style.fontSize = '12px';
+        logoplaceholder.style.color = '#555';
+        logocontainer.appendChild(logoplaceholder);
+
+        
+      }
+
+
       const images = services[0].images || [];
       images.forEach((image, index) => {
         const newFileUploadContainer = document.createElement('div');
@@ -240,7 +253,7 @@
     if (serviceId) {
       isEdit = true;
 
-      fetch(`http://localhost:8082/api/v1/serviceApi/Services/${serviceId}`, {
+      fetch(`http://13.233.100.229:8082/api/v1/serviceApi/Services/${serviceId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${authToken}`
@@ -264,7 +277,7 @@
         const imageId = event.target.getAttribute('data-id');
 
         if (isEdit) {
-          fetch(`http://localhost:8082/api/v1/serviceApi/Services/image/${imageId}`, {
+          fetch(`http://13.233.100.229:8082/api/v1/serviceApi/Services/image/${imageId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${authToken}`
@@ -364,8 +377,8 @@
 
       // Determine API method and URL
       const url = isEdit
-        ? `http://localhost:8082/api/v1/serviceApi/Services/${serviceId}`
-        : 'http://localhost:8082/api/v1/serviceApi/Services';
+        ? `http://13.233.100.229:8082/api/v1/serviceApi/Services/${serviceId}`
+        : 'http://13.233.100.229:8082/api/v1/serviceApi/Services';
       const method = isEdit ? 'PUT' : 'POST';
 
       // Submit the data
@@ -376,7 +389,13 @@
           'Authorization': `Bearer ${authToken}`,
         },
       })
-        .then(response => response.json())
+        .then(response => {
+              if (response.status === 409) {
+                  alert('Product already exists!');
+                  throw new Error('Conflict: Product already exists.');
+              }
+              return response.json();
+          })
         .then(data => {
           if (data.success) {
             alert(isEdit ? 'Service updated successfully!' : 'Service added successfully!');

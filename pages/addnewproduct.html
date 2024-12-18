@@ -168,7 +168,30 @@
     const formWrapper = document.getElementById('form-wrapper');
     const addFileButton = document.getElementById('add-file-button');
     const fileUploadContainerWrapper = document.getElementById('file-upload-container-wrapper');
+    var imageInput = fileUploadContainerWrapper.querySelectorAll('input[type="file"]');
     const submitButton = document.getElementById('submitButton');
+
+    imageInput.forEach((image)=>{
+      attachFileInputListener(image);
+    })
+
+    function validateFileSize(fileInput, errorElement) {
+      const file = fileInput.files[0];
+      if (file && file.size > MAX_FILE_SIZE) {
+        errorElement.style.display = 'block';
+        fileInput.value = '';
+        return false;
+      }
+      errorElement.style.display = 'none';
+      return true;
+    }
+
+    function attachFileInputListener(fileInput) {
+      fileInput.addEventListener('change', () => {
+        const errorElement = fileInput.parentElement.querySelector('.text-danger');
+        validateFileSize(fileInput, errorElement);
+      });
+    }
 
     function populateFormFields(product) {
       console.log(isEdit)
@@ -222,7 +245,7 @@
     if (productId) {
       isEdit = true;
 
-      fetch(`http://localhost:8082/api/v1/productApi/Products/${productId}`, {
+      fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${authToken}`
@@ -247,7 +270,7 @@
         console.log(imageId)
 
         if (isEdit) {
-          fetch(`http://localhost:8082/api/v1/productApi/Products/image/${imageId}`, {
+          fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/image/${imageId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${authToken}`
@@ -333,8 +356,8 @@
 
 
       const url = isEdit
-        ? `http://localhost:8082/api/v1/productApi/Products/${productId}`
-        : 'http://localhost:8082/api/v1/productApi/Products';
+        ? `http://13.233.100.229:8082/api/v1/productApi/Products/${productId}`
+        : 'http://13.233.100.229:8082/api/v1/productApi/Products';
       const method = isEdit ? 'PUT' : 'POST';
       const body = isEdit ? JSON.stringify(bodyPut) : formData_post;
       const headers = isEdit ?{
@@ -345,7 +368,7 @@
         }
 
       if (method == 'PUT' && hasImage){
-          await fetch(`http://localhost:8082/api/v1/productApi/Products/image/${productId}`,{
+          await fetch(`http://13.233.100.229:8082/api/v1/productApi/Products/image/${productId}`,{
             method,
             body:formData_put_image,
             headers:{
@@ -364,7 +387,13 @@
         body:body,
         headers: headers
       })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 409) {
+                alert('Product already exists!');
+                throw new Error('Conflict: Product already exists.');
+            }
+            return response.json();
+        })
         .then(data => {
           if (data.success) {
             alert(isEdit ? 'Product updated successfully!' : 'Product added successfully!');
