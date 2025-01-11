@@ -369,7 +369,12 @@
         if (file) {
           hasImage = true;
           if (file.size <= MAX_FILE_SIZE) {
-            formData_put_image.append('file', file);
+            if (isEdit){
+
+              formData_put_image.append('file', file);
+            }else{
+              formData.append('file',file);
+            }
           }
           else{
             alert("Image field is greater than 100 KB")
