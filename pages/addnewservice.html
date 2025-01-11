@@ -254,7 +254,7 @@
     if (serviceId) {
       isEdit = true;
 
-      fetch(`http://localhost:8082/api/v1/serviceApi/Services/${serviceId}`, {
+      fetch(`http://chefguardkitchenservices.com/backend/api/v1/serviceApi/Services/${serviceId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${authToken}`
@@ -278,7 +278,7 @@
         const imageId = event.target.getAttribute('data-id');
 
         if (isEdit) {
-          fetch(`http://localhost:8082/api/v1/serviceApi/Services/image/${imageId}`, {
+          fetch(`http://chefguardkitchenservices.com/backend/api/v1/serviceApi/Services/image/${imageId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${authToken}`
@@ -380,12 +380,12 @@
 
       // Determine API method and URL
       const url = isEdit
-        ? `http://localhost:8082/api/v1/serviceApi/Services/${serviceId}`
-        : 'http://localhost:8082/api/v1/serviceApi/Services';
+        ? `http://chefguardkitchenservices.com/backend/api/v1/serviceApi/Services/${serviceId}`
+        : 'http://chefguardkitchenservices.com/backend/api/v1/serviceApi/Services';
       const method = isEdit ? 'PUT' : 'POST';
 
       if (method == 'PUT' && hasImage){
-          await fetch(`http://localhost:8082/api/v1/serviceApi/Services/image/${serviceId}`,{
+          await fetch(`http://chefguardkitchenservices.com/backend/api/v1/serviceApi/Services/image/${serviceId}`,{
             method,
             body:formData_put_image,
             headers:{
