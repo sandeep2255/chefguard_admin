@@ -132,11 +132,10 @@
       .then(function(data){
         if(data.success){
           var login_details = data.data;
-          console.log(login_details)
           localStorage.setItem('authKey', login_details.accessToken);
           localStorage.setItem('userDetails', JSON.stringify(login_details.user));
           localStorage.setItem('refreshToken', login_details.refreshToken);
-          window.location.href = 'services.html';
+          window.location.href = 'pages/services.html';
         }else{
           alert("Incorrect credentials. Please try again.");
         }
