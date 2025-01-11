@@ -182,7 +182,7 @@
       var authToken = localStorage.getItem('authKey');
       var userDetails =  JSON.parse(localStorage.getItem('userDetails'))
       console.log(userDetails, authToken)
-      fetch('http://chefguardkitchenservices.com/backend/api/v1/userApi/logout',{
+      fetch('https://chefguardkitchenservices.com/backend/api/v1/userApi/logout',{
         method:'post',
         headers: {
             'Content-Type': 'application/json',
@@ -209,7 +209,7 @@
   </script>
   <script>
     console.log("Fetching products from API...");
-    fetch('http://chefguardkitchenservices.com/backend/api/v1/productApi/Products') // Replace with your actual API endpoint
+    fetch('https://chefguardkitchenservices.com/backend/api/v1/productApi/Products') // Replace with your actual API endpoint
         .then(function(response) {
             return response.json();
         })
@@ -283,7 +283,7 @@
 
       async function deleteProduct(productId) {
         try {
-          const response = await fetch(`http://chefguardkitchenservices.com/backend/api/v1/productApi/Products/${productId}`, {
+          const response = await fetch(`https://chefguardkitchenservices.com/backend/api/v1/productApi/Products/${productId}`, {
             method: 'delete',
             headers: {
               'Authorization': `Bearer ${authToken}`
