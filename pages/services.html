@@ -178,7 +178,7 @@
         window.location.href = 'login.html';
       }
       console.log(userDetails, authToken)
-      fetch('http://13.233.100.229:8082/api/v1/userApi/logout',{
+      fetch('http://62.72.56.136:8082/api/v1/userApi/logout',{
         method:'post',
         headers: {
             'Content-Type': 'application/json',
@@ -204,7 +204,7 @@
     })
   </script>
   <script>
-    fetch('http://13.233.100.229:8082/api/v1/serviceApi/Services')
+    fetch('http://62.72.56.136:8082/api/v1/serviceApi/Services')
     .then(function(response) {
       return response.json();
     })
@@ -288,7 +288,7 @@
 
     async function deleteService(serviceId) {
       try {
-        const response = await fetch(`http://13.233.100.229:8082/api/v1/serviceApi/Services/${serviceId}`, {
+        const response = await fetch(`http://62.72.56.136:8082/api/v1/serviceApi/Services/${serviceId}`, {
           method: 'delete',
           headers: {
             'Authorization': `Bearer ${authToken}`
