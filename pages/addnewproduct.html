@@ -60,7 +60,7 @@
     var isEdit = false;
     if (!userDetails || !authToken) {
       alert('You are not authorized to access this page.');
-      window.location.href = 'sign-in.html';
+      window.location.href = '/';
     }
 
     function getQueryParam(param) {
@@ -412,7 +412,7 @@
     document.getElementById('logoutButton').addEventListener('click', function () {
       localStorage.removeItem('authKey');
       localStorage.removeItem('userDetails');
-      window.location.href = 'sign-in.html';
+      window.location.href = '/';
     });
   </script>
 </body>

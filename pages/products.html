@@ -30,7 +30,7 @@
     console.log(authToken)
     if (!userDetails || !authToken) {
       alert('You are not authorized to access this page.');
-      window.location.href = 'sign-in.html';
+      window.location.href = '/';
     }
   </script>
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
@@ -197,7 +197,7 @@
       .then(function(data){
         if(data.success){
           alert('Logout Successfull');
-          window.location.href = 'sign-in.html';
+          window.location.href = '/';
         }
       })
       .catch(
