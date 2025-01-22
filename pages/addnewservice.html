@@ -86,12 +86,12 @@
             <span class="nav-link-text ms-1">Services</span>
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link active bg-gradient-dark text-white" href="../pages/products.html">
             <i class="material-symbols-rounded opacity-5">receipt_long</i>
             <span class="nav-link-text ms-1">Products</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
@@ -146,7 +146,7 @@
                     </div>
                   </div>
 
-                  <button type="button" class="add-button" id="add-file-button">+</button>
+                  <!-- <button type="button" class="add-button" id="add-file-button">+</button> -->
 
                   <div class="text-center">
                     <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2" id="submitButton">Submit</button>
@@ -414,8 +414,8 @@
       })
         .then(response => {
               if (response.status === 409) {
-                  alert('Product already exists!');
-                  throw new Error('Conflict: Product already exists.');
+                  alert('Service already exists!');
+                  throw new Error('Conflict: Service already exists.');
               }
               return response.json();
           })
