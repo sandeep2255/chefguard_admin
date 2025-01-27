@@ -136,6 +136,10 @@
                     <input type="text" class="form-control" name="description" placeholder="Description">
                   </div>
 
+                  <div class="input-group input-group-outline mb-3">
+                    <input type="text" class="form-control" name="percentage" placeholder="Offer Percentage">
+                  </div>
+
                   <div id="file-upload-container-wrapper">
                     <div class="file-upload-container" id="file-upload-container-1">
                       <input type="file" class="form-control" name="file">
@@ -201,6 +205,7 @@
         document.querySelector('[name="model"]').value = product[0].Model || '';
         document.querySelector('[name="price"]').value = product[0].Price || '';
         document.querySelector('[name="description"]').value = product[0].Description || '';
+        document.querySelector('[name="percentage"]').value = product[0].offerPercentage || '';
       } else {
         console.log("Product data not available");
       }
@@ -329,12 +334,14 @@
       formData_post.append('Model', document.querySelector('[name="model"]').value);
       formData_post.append('Price', document.querySelector('[name="price"]').value);
       formData_post.append('Description', document.querySelector('[name="description"]').value);
+      formData_post.append('offerPercentage', document.querySelector('[name="percentage"]').value);
 
       const bodyPut = {
         'productName': document.querySelector('[name="productName"]').value,
         'Model':document.querySelector('[name="model"]').value,
         'Price':document.querySelector('[name="price"]').value,
-        'Description':document.querySelector('[name="description"]').value
+        'Description':document.querySelector('[name="description"]').value,
+        'offerPercentage':document.querySelector('[name="offerPercentage"]').value
       }
 
       const files = document.querySelectorAll('[name="file"]');
@@ -397,7 +404,7 @@
         .then(data => {
           if (data.success) {
             alert(isEdit ? 'Product updated successfully!' : 'Product added successfully!');
-            window.location.href = 'products.html';
+            // window.location.href = 'products.html';
           } else {
             alert('Error saving product.');
           }

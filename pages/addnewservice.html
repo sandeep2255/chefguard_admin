@@ -86,12 +86,12 @@
             <span class="nav-link-text ms-1">Services</span>
           </a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link active bg-gradient-dark text-white" href="../pages/products.html">
             <i class="material-symbols-rounded opacity-5">receipt_long</i>
             <span class="nav-link-text ms-1">Products</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
@@ -168,7 +168,7 @@
   <script>
     const MAX_FILE_SIZE = 100 * 1024;
     const formWrapper = document.getElementById('form-wrapper');
-    const addFileButton = document.getElementById('add-file-button');
+    // const addFileButton = document.getElementById('add-file-button');
     const fileUploadContainerWrapper = document.getElementById('file-upload-container-wrapper');
     const logoUploadContainerWrapper = document.getElementById('logo-upload-container-wrapper');
     const submitButton = document.getElementById('submitButton');
@@ -310,35 +310,35 @@
       });
     }
 
-    addFileButton.addEventListener('click', () => {
-      const fileUploadCount = document.querySelectorAll('.file-upload-container').length;
+    // addFileButton.addEventListener('click', () => {
+    //   const fileUploadCount = document.querySelectorAll('.file-upload-container').length;
 
-      if (fileUploadCount >= 10) {
-        addFileButton.disabled = true;
-        return;
-      }
+    //   if (fileUploadCount >= 10) {
+    //     addFileButton.disabled = true;
+    //     return;
+    //   }
 
-      const newFileUploadContainer = document.createElement('div');
-      newFileUploadContainer.className = 'file-upload-container';
-      newFileUploadContainer.innerHTML = `
-        <input type="file" class="form-control" name="file">
-        <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
-        <button type="button" class="remove-button">-</button>
-      `;
+    //   const newFileUploadContainer = document.createElement('div');
+    //   newFileUploadContainer.className = 'file-upload-container';
+    //   newFileUploadContainer.innerHTML = `
+    //     <input type="file" class="form-control" name="file">
+    //     <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
+    //     <button type="button" class="remove-button">-</button>
+    //   `;
 
-      const removeButton = newFileUploadContainer.querySelector('.remove-button');
-      attachRemoveButtonListener(removeButton, newFileUploadContainer);
+    //   const removeButton = newFileUploadContainer.querySelector('.remove-button');
+    //   attachRemoveButtonListener(removeButton, newFileUploadContainer);
 
-      fileUploadContainerWrapper.appendChild(newFileUploadContainer);
+    //   fileUploadContainerWrapper.appendChild(newFileUploadContainer);
 
-      const newFileInput = newFileUploadContainer.querySelector('input[type="file"]');
-      attachFileInputListener(newFileInput);
+    //   const newFileInput = newFileUploadContainer.querySelector('input[type="file"]');
+    //   attachFileInputListener(newFileInput);
 
-      // const fileInput = newFileUploadContainer.querySelector('input[type="file"]');
-      // fileInput.addEventListener('change', function () {
-      //   validateFileSize(fileInput, newFileUploadContainer.querySelector('#fileSizeError'));
-      // });
-    });
+    //   // const fileInput = newFileUploadContainer.querySelector('input[type="file"]');
+    //   // fileInput.addEventListener('change', function () {
+    //   //   validateFileSize(fileInput, newFileUploadContainer.querySelector('#fileSizeError'));
+    //   // });
+    // });
 
     submitButton.addEventListener('click', async () => {
       const formData = new FormData();
@@ -359,6 +359,7 @@
       // Validate and add logo
       const logoFile = logoInput.files[0];
       if (logoFile) {
+        formData_put_image.append('logo',logoFile)
         formData.append('logo', logoFile);
       }
 
