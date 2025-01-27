@@ -143,12 +143,12 @@
                   <div id="file-upload-container-wrapper">
                     <div class="file-upload-container" id="file-upload-container-1">
                       <input type="file" class="form-control" name="file">
-                      <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
+                      <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 160 KB. Please upload a smaller file.</small>
                       <button type="button" class="remove-button">-</button>
                     </div>
                   </div>
 
-                  <button type="button" class="add-button" id="add-file-button">+</button>
+                  <!-- <button type="button" class="add-button" id="add-file-button">+</button> -->
 
                   <div class="text-center">
                     <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2" id="submitButton">Submit</button>
@@ -168,9 +168,9 @@
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
 
   <script>
-    const MAX_FILE_SIZE = 100 * 1024; // 100 KB in bytes
+    const MAX_FILE_SIZE = 160 * 1024; // 100 KB in bytes
     const formWrapper = document.getElementById('form-wrapper');
-    const addFileButton = document.getElementById('add-file-button');
+    // const addFileButton = document.getElementById('add-file-button');
     const fileUploadContainerWrapper = document.getElementById('file-upload-container-wrapper');
     var imageInput = fileUploadContainerWrapper.querySelectorAll('input[type="file"]');
     const submitButton = document.getElementById('submitButton');
@@ -300,32 +300,32 @@
       });
     }
 
-    addFileButton.addEventListener('click', () => {
-      const fileUploadCount = document.querySelectorAll('.file-upload-container').length;
+    // addFileButton.addEventListener('click', () => {
+    //   const fileUploadCount = document.querySelectorAll('.file-upload-container').length;
 
-      if (fileUploadCount >= 10) {
-        addFileButton.disabled = true;
-        return;
-      }
+    //   if (fileUploadCount >= 10) {
+    //     addFileButton.disabled = true;
+    //     return;
+    //   }
 
-      const newFileUploadContainer = document.createElement('div');
-      newFileUploadContainer.className = 'file-upload-container';
-      newFileUploadContainer.innerHTML = `
-        <input type="file" class="form-control" name="file">
-        <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
-        <button type="button" class="remove-button">-</button>
-      `;
+    //   const newFileUploadContainer = document.createElement('div');
+    //   newFileUploadContainer.className = 'file-upload-container';
+    //   newFileUploadContainer.innerHTML = `
+    //     <input type="file" class="form-control" name="file">
+    //     <small id="fileSizeError" class="text-danger" style="display:none;">File size exceeds 100 KB. Please upload a smaller file.</small>
+    //     <button type="button" class="remove-button">-</button>
+    //   `;
 
-      const removeButton = newFileUploadContainer.querySelector('.remove-button');
-      attachRemoveButtonListener(removeButton, newFileUploadContainer);
+    //   const removeButton = newFileUploadContainer.querySelector('.remove-button');
+    //   attachRemoveButtonListener(removeButton, newFileUploadContainer);
 
-      fileUploadContainerWrapper.appendChild(newFileUploadContainer);
+    //   fileUploadContainerWrapper.appendChild(newFileUploadContainer);
 
-      const fileInput = newFileUploadContainer.querySelector('input[type="file"]');
-      fileInput.addEventListener('change', function () {
-        validateFileSize(fileInput, newFileUploadContainer.querySelector('#fileSizeError'));
-      });
-    });
+    //   const fileInput = newFileUploadContainer.querySelector('input[type="file"]');
+    //   fileInput.addEventListener('change', function () {
+    //     validateFileSize(fileInput, newFileUploadContainer.querySelector('#fileSizeError'));
+    //   });
+    // });
 
     submitButton.addEventListener('click', async() => {
       const formData_post = new FormData();
