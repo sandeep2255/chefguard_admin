@@ -205,7 +205,7 @@
         document.querySelector('[name="model"]').value = product[0].Model || '';
         document.querySelector('[name="price"]').value = product[0].Price || '';
         document.querySelector('[name="description"]').value = product[0].Description || '';
-        document.querySelector('[name="percentage"]').value = product[0].offerPercentage || '';
+        document.querySelector('[name="percentage"]').value = product[0].offers[0].offer_percentage || '';
       } else {
         console.log("Product data not available");
       }
@@ -341,7 +341,7 @@
         'Model':document.querySelector('[name="model"]').value,
         'Price':document.querySelector('[name="price"]').value,
         'Description':document.querySelector('[name="description"]').value,
-        'offerPercentage':document.querySelector('[name="offerPercentage"]').value
+        'offerPercentage':document.querySelector('[name="percentage"]').value
       }
 
       const files = document.querySelectorAll('[name="file"]');
