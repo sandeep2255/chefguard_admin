@@ -227,9 +227,9 @@
                           <div class="d-flex flex-column">
                             <h6 class="mb-3 text-sm">${product.Product_name}</h6>
                             <span class="mb-2 text-xs">Product Name: <span class="text-dark font-weight-bold ms-sm-2">${product.Product_name}</span></span>
-                            <span class="mb-2 text-xs">Product Price: <span class="text-dark ms-sm-2 font-weight-bold">AED ${product.Price}</span></span>
+                            <span class="mb-2 text-xs">Product Price: <span class="text-dark ms-sm-2 font-weight-bold">₹ ${product.Price}</span></span>
                             <span class="mb-2 text-xs">Product Description: <span class="text-dark ms-sm-2 font-weight-bold">${product.Description}</span></span>
-                            <span class="mb-2 text-xs">Offer Price: <span class="text-dark ms-sm-2 font-weight-bold"> ${product.offers[0].offer_price ? 'AED ' + product.offers[0].offer_price : 'No Offer'}</span></span>
+                            <span class="mb-2 text-xs">Offer Price: <span class="text-dark ms-sm-2 font-weight-bold"> ${product.offers[0].offer_price ? '₹ ' + product.offers[0].offer_price : 'No Offer'}</span></span>
                             <span class="mb-2 text-xs">Offer Percentage: <span class="text-dark ms-sm-2 font-weight-bold">${product.offers[0].offer_percentage + '%' || 'No offer'}</span></span>
                     `;
                     var imageElement = '';
